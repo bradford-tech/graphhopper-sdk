@@ -59,6 +59,9 @@ jobs:
           base: .previous-spec.json
           revision: spec/openapi.json
           format: markdown
+          # Skip the oasdiff.com upload/review-link — keeps specs in CI and
+          # avoids the broken review annotation on schedule/dispatch runs.
+          review: false
         continue-on-error: true
 
       - name: Detect breaking changes
@@ -68,6 +71,9 @@ jobs:
         with:
           base: .previous-spec.json
           revision: spec/openapi.json
+          # Skip the oasdiff.com upload/review-link — keeps specs in CI and
+          # avoids the broken review annotation on schedule/dispatch runs.
+          review: false
         continue-on-error: true
 
       - name: Build PR metadata
