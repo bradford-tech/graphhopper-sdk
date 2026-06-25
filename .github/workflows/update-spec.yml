@@ -1,0 +1,129 @@
+name: Update OpenAPI Spec
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # Every day at 9:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-spec
+  cancel-in-progress: true
+
+jobs:
+  update-spec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Snapshot previous spec
+        id: snapshot
+        run: |
+          if [ -f spec/openapi.json ]; then
+            cp spec/openapi.json "$GITHUB_WORKSPACE/.previous-spec.json"
+            echo "has_previous=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_previous=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download latest spec
+        run: |
+          curl -sfL -o spec/openapi.json "https://docs.graphhopper.com/_bundle/openapi.json"
+
+      - name: Validate spec
+        id: lint
+        continue-on-error: true
+        run: npx -y @redocly/cli@2.28.1 lint spec/openapi.json --extends=spec --format=github-actions
+
+      - name: Regenerate client from updated spec
+        run: |
+          npm ci
+          npm run generate
+          npm run fix
+
+      - name: Generate API changelog
+        id: changelog
+        if: steps.snapshot.outputs.has_previous == 'true'
+        uses: oasdiff/oasdiff-action/changelog@9de38a0cce19e0c0ac89d7d760dc5c499fb8a2a7 # v0.0.42
+        with:
+          base: .previous-spec.json
+          revision: spec/openapi.json
+          format: markdown
+        continue-on-error: true
+
+      - name: Detect breaking changes
+        id: breaking
+        if: steps.snapshot.outputs.has_previous == 'true'
+        uses: oasdiff/oasdiff-action/breaking@9de38a0cce19e0c0ac89d7d760dc5c499fb8a2a7 # v0.0.42
+        with:
+          base: .previous-spec.json
+          revision: spec/openapi.json
+        continue-on-error: true
+
+      - name: Build PR metadata
+        env:
+          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+          BREAKING: ${{ steps.breaking.outputs.breaking }}
+          LINT_OUTCOME: ${{ steps.lint.outcome }}
+        run: |
+          {
+            echo 'PR_BODY<<EOF_9f3a7b2c'
+            echo 'The upstream GraphHopper Directions API OpenAPI specification has changed.'
+            echo ''
+            echo 'This PR updates `spec/openapi.json` to the latest version and regenerates the client in `src/client`.'
+            echo ''
+            if [ "$LINT_OUTCOME" = "success" ]; then
+              echo '**Spec validation:** Passed'
+            else
+              echo '**Spec validation:** Failed — review lint output in the [workflow run](https://github.com/bradford-tech/graphhopper-sdk/actions).'
+            fi
+            if [ -n "$BREAKING" ]; then
+              echo ''
+              echo '## ⚠️ Breaking changes detected'
+              echo ''
+              printf '%s\n' "$BREAKING"
+              echo ''
+              echo 'Consider a major version bump on the next SDK release.'
+            fi
+            if [ -n "$CHANGELOG" ]; then
+              echo ''
+              echo '<details><summary>Full API changelog</summary>'
+              echo ''
+              printf '%s\n' "$CHANGELOG"
+              echo ''
+              echo '</details>'
+            fi
+            echo 'EOF_9f3a7b2c'
+          } >> "$GITHUB_ENV"
+
+          if [ -n "$BREAKING" ]; then
+            printf 'PR_LABELS<<LABELS_EOF\nautomated\nbreaking-change\nLABELS_EOF\n' >> "$GITHUB_ENV"
+          else
+            echo 'PR_LABELS=automated' >> "$GITHUB_ENV"
+          fi
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          commit-message: "chore(spec): update GraphHopper OpenAPI spec"
+          title: "chore(spec): update GraphHopper OpenAPI spec"
+          body: ${{ env.PR_BODY }}
+          branch: update-openapi-spec
+          delete-branch: true
+          add-paths: |
+            spec/openapi.json
+            src/client
+          labels: ${{ env.PR_LABELS }}
+          assignees: sbs44
+          reviewers: sbs44
+          sign-commits: true

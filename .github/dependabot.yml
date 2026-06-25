@@ -1,0 +1,48 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    labels:
+      - automated
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+    assignees:
+      - sbs44
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    labels:
+      - automated
+    groups:
+      all-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+      # v0.0.43+ emits a broken oasdiff.com review-link annotation on
+      # non-PR runs (schedule/workflow_dispatch). Pinned to v0.0.42 in
+      # update-spec.yml; revisit if upstream adds an opt-out.
+      - dependency-name: "oasdiff/oasdiff-action"
+    assignees:
+      - sbs44
