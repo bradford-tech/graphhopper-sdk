@@ -107,7 +107,7 @@ export interface Config {
 /**
  * Arbitrary metadata passed through the `meta` request option.
  */
- 
+
 export interface ClientMeta {}
 
 type IsExactlyNeverOrNeverUndefined<T> = [T] extends [never]

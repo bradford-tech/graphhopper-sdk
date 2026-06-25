@@ -172,7 +172,6 @@ type MethodFn = <
 
 type SseFn = <
   TData = unknown,
-   
   _TError = unknown,
   ThrowOnError extends boolean = false,
   TResponseStyle extends ResponseStyle = "fields",
