@@ -28,6 +28,21 @@ assert.equal(
   "function",
   "client.get should be a function",
 );
+assert.equal(
+  typeof sdk.setApiKey,
+  "function",
+  "setApiKey should be a function",
+);
+assert.equal(
+  typeof sdk.createGraphHopper,
+  "function",
+  "createGraphHopper should be a function",
+);
+assert.equal(
+  typeof sdk.createGraphHopper({ apiKey: "test-key" }).get,
+  "function",
+  "createGraphHopper(...) should return a client",
+);
 
 console.log(
   "Smoke test passed: all exports present and correctly typed at runtime.",

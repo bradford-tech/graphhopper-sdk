@@ -41,6 +41,7 @@
     "generate": "rimraf ./src/client && openapi-ts",
     "lint": "eslint . --quiet --max-warnings 0",
     "prepack": "npm run build",
+    "test": "node --import jiti/register --test test/*.test.ts",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {

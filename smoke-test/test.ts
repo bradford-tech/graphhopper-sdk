@@ -2,12 +2,16 @@
 // Run with: npx tsc --noEmit
 
 import type { GetGeocodeData, Route } from "@bradford-tech/graphhopper-sdk";
-import { client, postRoute } from "@bradford-tech/graphhopper-sdk";
+import {
+  createGraphHopper,
+  postRoute,
+  setApiKey,
+} from "@bradford-tech/graphhopper-sdk";
 
-// Verify client config accepts auth callback (API key sent as `key` query param)
-client.setConfig({
-  auth: () => "test-key",
-});
+// Verify the public auth helpers resolve with correct types
+setApiKey("test-key");
+setApiKey(() => "test-key");
+const _gh = createGraphHopper({ apiKey: "test-key" });
 
 // Verify SDK function is callable with correct types
 const _call: Promise<unknown> = postRoute();

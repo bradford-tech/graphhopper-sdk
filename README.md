@@ -21,9 +21,9 @@ The client is ESM-only and runs on Node 20+, Deno, Bun, and edge runtimes (it us
 Set your API key once on the shared `client`, then call any operation. The base URL (`https://graphhopper.com/api/1`) is preconfigured.
 
 ```ts
-import { client, getGeocode } from "@bradford-tech/graphhopper-sdk";
+import { setApiKey, getGeocode } from "@bradford-tech/graphhopper-sdk";
 
-client.setConfig({ auth: () => process.env.GRAPHHOPPER_API_KEY });
+setApiKey(process.env.GRAPHHOPPER_API_KEY!);
 
 const { data } = await getGeocode({ query: { q: "Berlin" } });
 console.log(data?.hits?.[0]?.point);
@@ -34,13 +34,30 @@ Every operation returns `{ data, error, response }` — `data` is the typed resp
 
 ## Authentication
 
-GraphHopper authenticates with an API key passed as the `key` query parameter. The `auth` callback you set on the client supplies that key for every request:
+GraphHopper authenticates with an API key passed as the `key` query parameter. There are three ways to supply it.
+
+**Zero-config:** set `GRAPHHOPPER_API_KEY` in the environment and every request uses it automatically — no code required.
+
+**Explicit, shared client:** set the key once for all operations.
 
 ```ts
-client.setConfig({ auth: () => "your-api-key" });
+import { setApiKey } from "@bradford-tech/graphhopper-sdk";
+
+setApiKey("your-api-key"); // overrides GRAPHHOPPER_API_KEY
+// also accepts a resolver for rotation / secret managers:
+setApiKey(() => loadKeyFromVault());
 ```
 
-The callback runs per request, so it composes with secret managers or rotation. [Sign up](https://graphhopper.com/dashboard/signup) and [create a key](https://support.graphhopper.com/a/solutions/articles/44001976027) to get started. Responses include `X-RateLimit-*` headers describing your remaining credit balance; a `429` means the daily or per-minute limit is exhausted.
+**Isolated clients:** for multi-tenant servers, concurrent requests with different keys, or test isolation, create independent clients and pass one per call.
+
+```ts
+import { createGraphHopper, getGeocode } from "@bradford-tech/graphhopper-sdk";
+
+const gh = createGraphHopper({ apiKey: "your-api-key" });
+const { data } = await getGeocode({ client: gh, query: { q: "Berlin" } });
+```
+
+Precedence is explicit (`setApiKey` / `createGraphHopper`) over the `GRAPHHOPPER_API_KEY` environment variable. [Sign up](https://graphhopper.com/dashboard/signup) and [create a key](https://support.graphhopper.com/a/solutions/articles/44001976027) to get started. Responses include `X-RateLimit-*` headers describing your remaining credit balance; a `429` means the daily or per-minute limit is exhausted.
 
 ## Coverage
 
