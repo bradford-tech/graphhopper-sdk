@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.4](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.0.3...graphhopper-sdk-v0.0.4) (2026-08-20)
+
+
+### Features
+
+* **spec:** add max_service_time and max_working_time ([#19](https://github.com/bradford-tech/graphhopper-sdk/issues/19)) ([d846911](https://github.com/bradford-tech/graphhopper-sdk/commit/d846911da8e8c347fdc62c80de6d552811a94938))
+
 ## [0.0.3](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.0.2...graphhopper-sdk-v0.0.3) (2026-06-26)
 
 
