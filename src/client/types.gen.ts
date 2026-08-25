@@ -1570,6 +1570,8 @@ export type JobRelation = {
    *
    * This causes service j to occur directly after service i, and service k to occur directly after service j, i.e. in strict sequence. Again, a specific vehicle can be assigned by adding a `vehicle_id` to the relation.
    *
+   * When a plain shipment id (without the `_pickup`/`_delivery` suffix described below) is used in an `in_direct_sequence` relation, it stands for the whole shipment: its pickup directly followed by its delivery. For example, `"ids": ["ship_1","ship_2"]` enforces the strict activity sequence pickup of 1, delivery of 1, pickup of 2, delivery of 2 — with no other stops in between. If other activities should be allowed between a shipment's pickup and delivery, reference the activities individually via the `_pickup`/`_delivery` suffixes instead.
+   *
    * `neighbor`: This specifies a neighbor relationship, i.e., if services i and j are to be neighbors, i must be either immediately before or after j. It can be specified as follows:
    *
    * ```json
@@ -2391,7 +2393,7 @@ export type GetGeocodeData = {
      */
     q?: string;
     /**
-     * Display the search results for the specified locale. For the default provider French (fr), English (en) and German (de) are supported. Otherwise leave the locale empty.
+     * Display the search results for the specified `locale`. For the default geocoding provider `en`, `fr`, `es`, `de`, `pt`, `ru` and `it` are supported. Otherwise leave the locale empty.
      */
     locale?: string;
     /**
