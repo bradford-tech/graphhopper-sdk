@@ -598,7 +598,7 @@
           {
             "in": "query",
             "name": "optimize",
-            "description": "Normally, the calculated route will visit the points in the order you specified them.\nIf you have more than two points, you can set this parameter to `\"true\"` and the points may be re-ordered to minimize the total travel time.\nKeep in mind that the limits on the number of locations of the Route Optimization API applies, and the request costs more credits.\n",
+            "description": "Normally, the calculated route will visit the points in the order you specified them.\nIf you have more than two points, you can set this parameter to `\"true\"` and the points may be re-ordered to minimize the total travel time.\nKeep in mind that the limits on the number of locations of the Route Optimization API applies, and the request costs more credits.\nIf you set it to \"true\" then it cannot be used with `ch.disable: true`. If you still want to use the custom model with route optimization, then you'll need to use the [Profiles API](#tag/Custom-Profiles).\n",
             "schema": {
               "type": "string",
               "default": "false"
@@ -691,7 +691,7 @@
                 "alternative_route"
               ]
             },
-            "description": "Rather than looking for the shortest or fastest path, this parameter lets you solve two different problems related to routing:\nWith `alternative_route`, we give you not one but several routes that are close to optimal, but\nnot too similar to each other. \nWith `round_trip`, the route will get you back to where you started. This is meant for fun (think of\na bike trip), so we will add some randomness.\nYou can control both of these features with additional parameters, see below. \n"
+            "description": "Rather than looking for the shortest or fastest path, this parameter lets you solve two different problems related to routing:\nWith `alternative_route`, we give you not one but several routes that are close to optimal, but\nnot too similar to each other. Limitation: works with custom_model but not with custom profiles.\nWith `round_trip`, the route will get you back to where you started. This is meant for fun (think of\na bike trip), so we will add some randomness.\nYou can control both of these features with additional parameters, see below. \n"
           },
           {
             "name": "round_trip.distance",
@@ -6481,7 +6481,7 @@
               "round_trip",
               "alternative_route"
             ],
-            "description": "Rather than looking for the shortest or fastest path, this parameter lets you solve two different problems related to routing:\nWith `alternative_route`, we give you not one but several routes that are close to optimal, but\nnot too similar to each other. \nWith `round_trip`, the route will get you back to where you started. This is meant for fun (think of\na bike trip), so we will add some randomness.\nYou can control both of these features with additional parameters, see below. \n"
+            "description": "Rather than looking for the shortest or fastest path, this parameter lets you solve two different problems related to routing:\nWith `alternative_route`, we give you not one but several routes that are close to optimal, but\nnot too similar to each other. Limitation: works with custom_model but not with custom profiles.\nWith `round_trip`, the route will get you back to where you started. This is meant for fun (think of\na bike trip), so we will add some randomness.\nYou can control both of these features with additional parameters, see below. \n"
           },
           "round_trip.distance": {
             "type": "integer",

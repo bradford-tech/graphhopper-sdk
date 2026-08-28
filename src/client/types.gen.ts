@@ -383,7 +383,7 @@ export type RouteRequest = {
   /**
    * Rather than looking for the shortest or fastest path, this parameter lets you solve two different problems related to routing:
    * With `alternative_route`, we give you not one but several routes that are close to optimal, but
-   * not too similar to each other.
+   * not too similar to each other. Limitation: works with custom_model but not with custom profiles.
    * With `round_trip`, the route will get you back to where you started. This is meant for fun (think of
    * a bike trip), so we will add some randomness.
    * You can control both of these features with additional parameters, see below.
@@ -1999,6 +1999,7 @@ export type GetRouteData = {
      * Normally, the calculated route will visit the points in the order you specified them.
      * If you have more than two points, you can set this parameter to `"true"` and the points may be re-ordered to minimize the total travel time.
      * Keep in mind that the limits on the number of locations of the Route Optimization API applies, and the request costs more credits.
+     * If you set it to "true" then it cannot be used with `ch.disable: true`. If you still want to use the custom model with route optimization, then you'll need to use the [Profiles API](#tag/Custom-Profiles).
      *
      */
     optimize?: string;
@@ -2050,7 +2051,7 @@ export type GetRouteData = {
     /**
      * Rather than looking for the shortest or fastest path, this parameter lets you solve two different problems related to routing:
      * With `alternative_route`, we give you not one but several routes that are close to optimal, but
-     * not too similar to each other.
+     * not too similar to each other. Limitation: works with custom_model but not with custom profiles.
      * With `round_trip`, the route will get you back to where you started. This is meant for fun (think of
      * a bike trip), so we will add some randomness.
      * You can control both of these features with additional parameters, see below.
