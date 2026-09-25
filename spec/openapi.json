@@ -59,7 +59,7 @@
     },
     {
       "name": "Custom Profiles",
-      "description": "\nYou can create routing profiles that are customized to your needs. You can take advantage of\nall the modelling options described in the [Custom Model section](#tag/Custom-Model) and use the created custom profile (prefix `cp_`)\nwith our Routing, Matrix and Route Optimization APIs.\n\nNote that the geographic coverage of a custom profile is restricted and the maximum possible coverage depends on the selected plan.\n\nA curl example to create a profile:\n\n```\ncurl -X POST -H \"Content-Type: application/json\" \"https://graphhopper.com/api/1/profiles?key=YOUR_KEY\" -d '{\"bounds\":{\"bbox\":[11.45462,48.00954,11.77322,48.2076]},\"custom_model\":{\"priority\":[{\"if\":\"road_class == MOTORWAY\",\"multiply_by\":\"0\"}]},\"profile\":\"car\"}'\n```\n\nTo quickly test your custom_model you can use the Routing API where a different custom model can be specified in every request.\nOr use [GraphHopper Maps](https://graphhopper.com/maps/) and click the gear button.\n\n**Creating custom profiles using the API Explorer**\n\nBesides using the `/profiles` endpoint directly you can also create custom profiles using [our API explorer](https://explorer.graphhopper.com/?endpoint=profiles).\n\n 1. Visit the [API explorer](https://explorer.graphhopper.com/?endpoint=profiles).\n 2. Set your API key with the \"API key\" button.\n 2. Now copy and paste the JSON to create a custom profile into the input window. To get started you can use the already pre-filled example, which will create a\n    custom profile that excludes motorways and is limited to the Munich area.\n 3. Click \"Send\". This creates a custom profile. Copy the returned `id` from the output window (it starts with `cp_`).\n 4. To try this profile out you change the drop down to \"Optimization API\", pick the first example and replace `car` in `\"profile\": \"car\"` (`vehicle_types` section) with the profile `id` you just copied and click \"Send\".\n\nThe optimized route no longer uses motorways. Keep in mind that this is a simple example and the custom model language\nis a lot more powerful than this with which you can avoid, exclude or prefer certain areas or road classes and a lot more.\nMake sure you read the [Custom Model section](#tag/Custom-Model) to learn about all the details.\n\nNote that you can use the profile `id` just as well for the `/matrix` or `/route` endpoint. E.g. select \"Routing API\"\nand use the profile `id` in the request.\n"
+      "description": "\nYou can create routing profiles that are customized to your needs. You can take advantage of\nall the modelling options described in the [Custom Model section](#tag/Custom-Model) and use the created custom profile (prefix `cp_`)\nwith our Routing, Matrix and Route Optimization APIs.\n\nNote that the geographic coverage of a custom profile is restricted and the maximum possible coverage depends on the selected plan.\n\nA curl example to create a profile:\n\n```\ncurl -X POST -H \"Content-Type: application/json\" \"https://graphhopper.com/api/1/profiles?key=YOUR_KEY\" -d '{\"bounds\":{\"bbox\":[11.45462,48.00954,11.77322,48.2076]},\"custom_model\":{\"priority\":[{\"if\":\"road_class == MOTORWAY\",\"multiply_by\":\"0\"}]},\"profile\":\"car\"}'\n```\n\nInstead of a rectangle (`bbox`) the `bounds` can also be one or more polygons as GeoJSON features:\n\n```\n\"bounds\": { \"features\": [ { \"type\": \"Feature\", \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [[[11.8, 48.14], [11.73, 48.24], [11.57, 48.29], [11.42, 48.24], [11.35, 48.14], [11.42, 48.03], [11.57, 47.99], [11.73, 48.03], [11.8, 48.14]]] } } ] }\n```\n\nTo quickly test your custom_model you can use the Routing API where a different custom model can be specified in every request.\nOr use [GraphHopper Maps](https://graphhopper.com/maps/) and click the gear button.\n\n**Creating custom profiles using the API Explorer**\n\nBesides using the `/profiles` endpoint directly you can also create custom profiles using [our API explorer](https://explorer.graphhopper.com/?endpoint=profiles).\n\n 1. Visit the [API explorer](https://explorer.graphhopper.com/?endpoint=profiles).\n 2. Set your API key with the \"API key\" button.\n 2. Now copy and paste the JSON to create a custom profile into the input window. To get started you can use the already pre-filled example, which will create a\n    custom profile that excludes motorways and is limited to the Munich area.\n 3. Click \"Send\". This creates a custom profile. Copy the returned `id` from the output window (it starts with `cp_`).\n 4. To try this profile out you change the drop down to \"Optimization API\", pick the first example and replace `car` in `\"profile\": \"car\"` (`vehicle_types` section) with the profile `id` you just copied and click \"Send\".\n\nThe optimized route no longer uses motorways. Keep in mind that this is a simple example and the custom model language\nis a lot more powerful than this with which you can avoid, exclude or prefer certain areas or road classes and a lot more.\nMake sure you read the [Custom Model section](#tag/Custom-Model) to learn about all the details.\n\nNote that you can use the profile `id` just as well for the `/matrix` or `/route` endpoint. E.g. select \"Routing API\"\nand use the profile `id` in the request.\n"
     }
   ],
   "paths": {
@@ -6615,6 +6615,7 @@
           },
           "bounds": {
             "type": "object",
+            "description": "The area of the profile, either a rectangle (`bbox`) or polygons (`features`).",
             "anyOf": [
               {
                 "$ref": "#/components/schemas/BBox"
@@ -6661,16 +6662,15 @@
           },
           "bounds": {
             "type": "object",
-            "properties": {
-              "bbox": {
-                "type": "array",
-                "description": "A rectangular area given as an array [minLon, minLat, maxLon, maxLat]. The profile will only work in this area.",
-                "items": {
-                  "type": "number",
-                  "format": "double"
-                }
+            "description": "The area of the profile as specified in the request.",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BBox"
+              },
+              {
+                "$ref": "#/components/schemas/FeatureCollection"
               }
-            }
+            ]
           },
           "custom_model": {
             "$ref": "#/components/schemas/CustomModelForProfile"
@@ -6750,6 +6750,7 @@
       },
       "FeatureCollection": {
         "type": "object",
+        "description": "A GeoJSON FeatureCollection. For `bounds` the `type` is optional and every feature must be a Polygon.",
         "properties": {
           "type": {
             "type": "string",
