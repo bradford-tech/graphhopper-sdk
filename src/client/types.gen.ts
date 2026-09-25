@@ -540,6 +540,9 @@ export type ProfileRequest = {
     | "small_truck"
     | "truck"
     | "scooter";
+  /**
+   * The area of the profile, either a rectangle (`bbox`) or polygons (`features`).
+   */
   bounds?: BBox | FeatureCollection;
   custom_model?: CustomModelForProfile;
 };
@@ -549,12 +552,10 @@ export type ProfileResponse = {
    * The built-in profile this custom profile is based on.
    */
   profile?: string;
-  bounds?: {
-    /**
-     * A rectangular area given as an array [minLon, minLat, maxLon, maxLat]. The profile will only work in this area.
-     */
-    bbox?: Array<number>;
-  };
+  /**
+   * The area of the profile as specified in the request.
+   */
+  bounds?: BBox | FeatureCollection;
   custom_model?: CustomModelForProfile;
   /**
    * The name of the created profile. Use this as the `profile` parameter for the /route API etc. For route optimization requests you need to define a vehicle_type where you can enter the custom profile.
@@ -584,6 +585,9 @@ export type BBox = {
   bbox?: Array<number>;
 };
 
+/**
+ * A GeoJSON FeatureCollection. For `bounds` the `type` is optional and every feature must be a Polygon.
+ */
 export type FeatureCollection = {
   type?: "FeatureCollection";
   /**
