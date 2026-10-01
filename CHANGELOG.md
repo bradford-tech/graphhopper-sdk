@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.0](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.0.4...graphhopper-sdk-v0.1.0) (2026-10-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **spec:** ProfileResponse.bounds is now BBox | FeatureCollection instead of { bbox?: number[] }.
+
+### Features
+
+* **spec:** update GraphHopper OpenAPI spec ([#29](https://github.com/bradford-tech/graphhopper-sdk/issues/29)) ([5b0a57b](https://github.com/bradford-tech/graphhopper-sdk/commit/5b0a57b4393f1975b963418cc4ce9ff706ed1594))
+
 ## [0.0.4](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.0.3...graphhopper-sdk-v0.0.4) (2026-08-20)
 
 
