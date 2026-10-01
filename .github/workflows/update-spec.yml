@@ -120,8 +120,8 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
-          commit-message: "chore(spec): update GraphHopper OpenAPI spec"
-          title: "chore(spec): update GraphHopper OpenAPI spec"
+          commit-message: "fix(spec): update GraphHopper OpenAPI spec"
+          title: "fix(spec): update GraphHopper OpenAPI spec"
           body: ${{ env.PR_BODY }}
           branch: update-openapi-spec
           delete-branch: true
