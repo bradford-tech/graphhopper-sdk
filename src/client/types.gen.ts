@@ -917,9 +917,13 @@ export type Vehicle = {
    */
   max_service_time?: number;
   /**
-   * Specifies the maximum working time (in seconds) a vehicle/driver is allowed: driving time (incl. preparation times) plus on-site time (service durations scaled by service_time_factor plus setup times). Waiting and break times are not included. Use `earliest_start` and `latest_end` instead if waiting time should count towards the limit.
+   * Specifies the maximum working time (in seconds) a vehicle/driver is allowed: driving time (incl. preparation times) plus on-site time (service durations scaled by service_time_factor plus setup times). Waiting and break times are not included. Use `max_route_duration` instead if waiting time should count towards the limit.
    */
   max_working_time?: number;
+  /**
+   * Specifies the maximum duration (in seconds) of the vehicle's route, i.e. the time between the vehicle's actual departure from its start location and its arrival at its end location (or at its last stop if `return_to_depot` is false). Unlike `max_working_time`, waiting and break times count towards this limit, so it bounds the time the driver is away. Unlike `latest_end`, it is measured from the actual departure: with `latest_start` the optimizer may depart later than `earliest_start`, and the limit applies to the route from that later departure.
+   */
+  max_route_duration?: number;
   /**
    * Specifies the maximum number of jobs a vehicle can load.
    */
@@ -984,6 +988,10 @@ export type Shift = {
    * Specifies the maximum working time (in seconds) for this shift's route: driving time (incl. preparation times) plus on-site time. Waiting and break times are not included. Defaults to the vehicle's max_working_time.
    */
   max_working_time?: number;
+  /**
+   * Specifies the maximum duration (in seconds) of this shift's route, i.e. the time between the actual departure and the arrival at the end location, waiting and break times included. Defaults to the vehicle's max_route_duration.
+   */
+  max_route_duration?: number;
   break?: TimeWindowBreak | DriveTimeBreak;
 };
 
@@ -1783,6 +1791,7 @@ export type Detail = {
    * 30 | could not be assigned due to driving time break
    * 31 | could not be assigned due to max service time constraint
    * 32 | could not be assigned due to max working time constraint
+   * 33 | could not be assigned due to max route duration constraint
    * 50 | underlying location cannot be accessed over road network by at least one vehicle
    * 51 | location is isolated and cannot reach any other location over road network
    *
