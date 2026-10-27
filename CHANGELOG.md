@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.1.1...graphhopper-sdk-v0.1.2) (2026-10-27)
+
+
+### Bug Fixes
+
+* **spec:** update GraphHopper OpenAPI spec ([#38](https://github.com/bradford-tech/graphhopper-sdk/issues/38)) ([534ff72](https://github.com/bradford-tech/graphhopper-sdk/commit/534ff7231ddaaaada4d8f4f93f30ad6576268c57))
+
 ## [0.1.1](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.1.0...graphhopper-sdk-v0.1.1) (2026-10-09)
 
 
