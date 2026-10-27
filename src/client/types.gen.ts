@@ -2436,7 +2436,7 @@ export type GetGeocodeData = {
      *
      * The credit costs can be different for all providers - see [here](https://support.graphhopper.com/support/solutions/articles/44000718211-what-is-one-credit-) for more information about it.
      *
-     * Currently, only the default provider and gisgraphy support autocompletion of partial search strings.
+     * Currently, only the default provider supports autocompletion of partial search strings.
      *
      * All providers support normal "forward" geocoding and reverse geocoding via `reverse=true`.
      *
@@ -2462,19 +2462,6 @@ export type GetGeocodeData = {
      *
      * * countrycode - The country code is a two letter code as defined by the ISO 3166-1 Alpha 2 standard. E.g. gb for the United Kingdom, fr for France, us for United States.
      * * bounds - the expected format is `minLon,minLat,maxLon,maxLat`
-     *
-     * #### Gisgraphy (`provider=gisgraphy`)
-     *
-     * This provider returns results from the Gisgraphy geocoder which you can try [here](https://services.gisgraphy.com/static/leaflet/index.html).
-     *
-     * **Limitations:** The `locale` parameter is not supported. Gisgraphy does not return OSM tags or an extent.
-     *
-     * Gisgraphy has a special autocomplete API, which you can use by adding `autocomplete=true` (does not work with `reverse=true`). The autocomplete API is optimized on predicting text input, but returns less information.
-     *
-     * In addition to the above documented parameters Gisgraphy allows to use the following parameters, which can be used as documented [here](https://www.gisgraphy.com/documentation/user-guide.php#geocodingservice):
-     *
-     * * `radius` - radius in meters
-     * * `country` - restrict search for the specified country. The value must be the ISO 3166 Alpha 2 code of the country.
      *
      * #### OpenCage Data (`provider=opencagedata`)
      *
