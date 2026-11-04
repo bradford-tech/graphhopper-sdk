@@ -80,7 +80,7 @@ export type ClusterCustomerAddress = {
    */
   lat?: number;
   /**
-   * Optional parameter. Provide a hint that includes only the street name for each address to better snap the coordinates (lon,lat) to road network. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up.
+   * Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.
    */
   street_hint?: string;
 };
@@ -222,7 +222,7 @@ export type SymmetricalMatrixRequest = {
    */
   points?: Array<Array<number>>;
   /**
-   * Optional parameter. Specifies a hint for each point in the `points` array to prefer a certain street for the closest location lookup. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up.
+   * Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.
    */
   point_hints?: Array<string>;
   /**
@@ -294,7 +294,7 @@ export type RouteRequest = {
    */
   points?: Array<Array<number>>;
   /**
-   * Optional parameter. Specifies a hint for each point in the `points` array to prefer a certain street for the closest location lookup. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up. Make sure you do not include the house number of city name and only the street name to improve the quality of the matching.
+   * Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.
    */
   point_hints?: Array<string>;
   /**
@@ -1023,7 +1023,7 @@ export type Address = {
    */
   lat: number;
   /**
-   * Optional parameter. Specifies a hint containing the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.
+   * Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.
    */
   street_hint?: string;
   /**
@@ -1055,7 +1055,7 @@ export type ResponseAddress = {
    */
   lat?: number;
   /**
-   * Optional parameter. Specifies a hint for each address to better snap the coordinates (lon,lat) to road network. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up.
+   * Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.
    */
   street_hint?: string;
   snapped_waypoint?: SnappedWaypoint;
@@ -2226,7 +2226,7 @@ export type GetMatrixData = {
      */
     to_point?: Array<string>;
     /**
-     * Optional parameter. Specifies a hint for each `point` parameter to prefer a certain street for the closest location lookup. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up.
+     * Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.
      */
     point_hint?: Array<string>;
     /**

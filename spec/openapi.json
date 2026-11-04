@@ -1383,7 +1383,7 @@
           {
             "name": "point_hint",
             "in": "query",
-            "description": "Optional parameter. Specifies a hint for each `point` parameter to prefer a certain street for the closest location lookup. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up.",
+            "description": "Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.",
             "required": false,
             "schema": {
               "type": "array",
@@ -5643,8 +5643,8 @@
           },
           "street_hint": {
             "type": "string",
-            "description": "Optional parameter. Provide a hint that includes only the street name for each address to better snap the coordinates (lon,lat) to road network. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up.",
-            "example": "Lindenschmitstraße 52"
+            "description": "Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.",
+            "example": "Lindenschmitstraße"
           }
         }
       },
@@ -6103,7 +6103,7 @@
             }
           },
           "point_hints": {
-            "description": "Optional parameter. Specifies a hint for each point in the `points` array to prefer a certain street for the closest location lookup. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up.",
+            "description": "Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.",
             "type": "array",
             "items": {
               "type": "string"
@@ -6357,7 +6357,7 @@
             ]
           },
           "point_hints": {
-            "description": "Optional parameter. Specifies a hint for each point in the `points` array to prefer a certain street for the closest location lookup. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up. Make sure you do not include the house number of city name and only the street name to improve the quality of the matching.",
+            "description": "Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.",
             "type": "array",
             "items": {
               "type": "string"
@@ -7470,8 +7470,8 @@
           },
           "street_hint": {
             "type": "string",
-            "description": "Optional parameter. Specifies a hint containing the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.",
-            "example": "Queens Victoria Street 70"
+            "description": "Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.",
+            "example": "Queens Victoria Street"
           },
           "curbside": {
             "type": "string",
@@ -7518,8 +7518,8 @@
           },
           "street_hint": {
             "type": "string",
-            "description": "Optional parameter. Specifies a hint for each address to better snap the coordinates (lon,lat) to road network. E.g. if there is an address or house with two or more neighboring streets you can control for which street the closest location is looked up.",
-            "example": "Queens Victoria Street 70"
+            "description": "Optional parameter. Specifies a hint containing only the street name to better snap the coordinates (lon,lat) to the road network. For example, if an address or building has two or more neighboring streets, you can control which street is used to find the closest location.",
+            "example": "Queens Victoria Street"
           },
           "snapped_waypoint": {
             "$ref": "#/components/schemas/SnappedWaypoint"
