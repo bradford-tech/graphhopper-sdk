@@ -1292,6 +1292,10 @@ export type TimeWindow = {
    * Specifies the closing time of the time window in seconds, i.e. the latest time the service can start. Omit this field to indicate no limit.
    */
   latest?: number;
+  /**
+   * Makes the closing time soft: the service may start up to `max_lateness` seconds after `latest`, at a penalty that grows with the lateness, instead of being left unassigned. The optimizer only uses this allowance when it rescues a service or clearly shortens the routes; punctual solutions are always preferred. `latest` + `max_lateness` is a hard limit. The lateness is reported per activity as `late_by`. Omit or 0 for a hard time window.
+   */
+  max_lateness?: number;
 };
 
 export type PreferredVehicle = {
@@ -1723,6 +1727,14 @@ export type Solution = {
    */
   setup_time?: number;
   /**
+   * Overall lateness in seconds: the sum of `late_by` over all activities. 0 unless a time window allowed lateness via `max_lateness`.
+   */
+  lateness?: number;
+  /**
+   * Number of activities that start after the `latest` of their time window (`late_by` > 0).
+   */
+  late_activities?: number;
+  /**
    * Overall completion time in seconds, i.e. the sum of each route's operation time.
    */
   completion_time?: number;
@@ -1859,6 +1871,14 @@ export type Route = {
    */
   setup_time?: number;
   /**
+   * Lateness of this route in seconds: the sum of `late_by` over its activities.
+   */
+  lateness?: number;
+  /**
+   * Number of activities of this route with `late_by` > 0.
+   */
+  late_activities?: number;
+  /**
    * Array of activities
    */
   activities?: Array<Activity>;
@@ -1914,6 +1934,10 @@ export type Activity = {
    * Waiting time at this activity in seconds. A waiting time can occur if the activity has at least one time window. If `arr_time` < `time_window.earliest` a waiting time of `time_window_earliest` - `arr_time` occurs.
    */
   waiting_time?: number;
+  /**
+   * Lateness of this activity in seconds: how far its start lies after the `latest` of its time window. Only non-zero if the time window allows it via `max_lateness`.
+   */
+  late_by?: number;
   /**
    * preparation time at this activity in seconds
    */
