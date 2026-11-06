@@ -18,6 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      # Open the PR as bradfordbot[bot] rather than github-actions[bot]. Since
+      # June 2026 GitHub creates workflow runs for PRs pushed by
+      # github-actions[bot] but holds them until someone with write access
+      # approves, so every spec-update PR sat in "awaiting approval" until
+      # sbs44 clicked through. Pushes from an installed GitHub App aren't
+      # held, so `ci` starts on its own. Token is scoped to this repo and to
+      # the two permissions create-pull-request needs.
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: app-token
+        with:
+          client-id: ${{ secrets.BRADFORDBOT_CLIENT_ID }}
+          private-key: ${{ secrets.BRADFORDBOT_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+          permission-metadata: read
+
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -120,6 +136,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: "fix(spec): update GraphHopper OpenAPI spec"
           title: "fix(spec): update GraphHopper OpenAPI spec"
           body: ${{ env.PR_BODY }}
