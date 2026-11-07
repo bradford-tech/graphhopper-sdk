@@ -1806,6 +1806,8 @@ export type Detail = {
    * 33 | could not be assigned due to max route duration constraint
    * 50 | underlying location cannot be accessed over road network by at least one vehicle
    * 51 | location is isolated and cannot reach any other location over road network
+   * 52 | location cannot reach the end location of any vehicle over road network
+   * 53 | could not be assigned without a leg that has no road connection
    *
    */
   code?: number;
