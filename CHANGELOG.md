@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.1.4...graphhopper-sdk-v0.1.5) (2026-11-08)
+
+
+### Bug Fixes
+
+* **spec:** document unassigned reason codes 52 and 53 ([#49](https://github.com/bradford-tech/graphhopper-sdk/issues/49)) ([6bada15](https://github.com/bradford-tech/graphhopper-sdk/commit/6bada15523996b3b750c3f9abce8e1ea379675c2))
+
 ## [0.1.4](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.1.3...graphhopper-sdk-v0.1.4) (2026-11-06)
 
 
