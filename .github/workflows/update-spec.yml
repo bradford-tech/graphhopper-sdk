@@ -97,6 +97,19 @@ jobs:
           BREAKING: ${{ steps.breaking.outputs.breaking }}
           LINT_OUTCOME: ${{ steps.lint.outcome }}
         run: |
+          # The pinned oasdiff action never writes an empty output. When there is
+          # nothing to report it writes the literal "No breaking changes" /
+          # "No changelog changes" (see breaking/entrypoint.sh and
+          # changelog/entrypoint.sh at the pinned SHA), so a bare -n test is
+          # always true and every PR got the breaking-change section and label.
+          # Treat those sentinels as empty. Re-check them if the pin is bumped.
+          if [ "$(printf '%s' "$BREAKING" | tr -d '[:space:]')" = "Nobreakingchanges" ]; then
+            BREAKING=""
+          fi
+          if [ "$(printf '%s' "$CHANGELOG" | tr -d '[:space:]')" = "Nochangelogchanges" ]; then
+            CHANGELOG=""
+          fi
+
           {
             echo 'PR_BODY<<EOF_9f3a7b2c'
             echo 'The upstream GraphHopper Directions API OpenAPI specification has changed.'
