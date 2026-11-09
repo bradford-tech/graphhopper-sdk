@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.1.5...graphhopper-sdk-v0.1.6) (2026-11-09)
+
+
+### Features
+
+* **spec:** add info field to isochrone response ([#52](https://github.com/bradford-tech/graphhopper-sdk/issues/52)) ([8ccf42b](https://github.com/bradford-tech/graphhopper-sdk/commit/8ccf42bfb40d150dc557989deeaed39172c4a2b6))
+
 ## [0.1.5](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.1.4...graphhopper-sdk-v0.1.5) (2026-11-08)
 
 
