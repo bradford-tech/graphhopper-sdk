@@ -747,6 +747,7 @@ export type IsochroneResponse = {
    *
    */
   polygons?: Array<IsochroneResponsePolygon>;
+  info?: ResponseInfo;
 };
 
 /**
@@ -2202,11 +2203,11 @@ export type GetIsochroneData = {
      */
     point: string;
     /**
-     * Specify which time the vehicle should travel. In seconds.
+     * Travel time of the isochrone, in seconds.
      */
     time_limit?: number;
     /**
-     * Specify which distance the vehicle should travel. In meters.
+     * Travel distance of the isodistance, in meters.
      */
     distance_limit?: number;
     profile?: VehicleProfileId;
