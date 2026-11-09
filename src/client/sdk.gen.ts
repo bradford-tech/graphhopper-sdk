@@ -141,6 +141,14 @@ export const postRoute = <ThrowOnError extends boolean = false>(
 
 /**
  * Compute an isochrone
+ *
+ * Calculates the area that can be reached from `point`. The boundary of this area is an isoline, of which there are two kinds:
+ *
+ * - **Isochrone**: all points on the line are reached after the same travel time. Request it with `time_limit`.
+ * - **Isodistance**: all points on the line are reached after the same travel distance along the road network. Request it with `distance_limit`.
+ *
+ * You choose the kind of isoline by specifying the corresponding parameter.
+ *
  */
 export const getIsochrone = <ThrowOnError extends boolean = false>(
   options: Options<GetIsochroneData, ThrowOnError>,
