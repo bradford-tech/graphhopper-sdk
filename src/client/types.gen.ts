@@ -541,7 +541,7 @@ export type ProfileRequest = {
     | "truck"
     | "scooter";
   /**
-   * The area of the profile, either a rectangle (`bbox`) or polygons (`features`).
+   * The area of the profile, either a rectangle (`bbox`) or a FeatureCollection with polygons (`type` must be `FeatureCollection`).
    */
   bounds?: BBox | FeatureCollection;
   custom_model?: CustomModelForProfile;
@@ -586,7 +586,7 @@ export type BBox = {
 };
 
 /**
- * A GeoJSON FeatureCollection. For `bounds` the `type` is optional and every feature must be a Polygon.
+ * A GeoJSON FeatureCollection. For `bounds` the `type` is required and every feature must be a Polygon.
  */
 export type FeatureCollection = {
   type?: "FeatureCollection";
