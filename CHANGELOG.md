@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.7](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.1.6...graphhopper-sdk-v0.1.7) (2026-11-20)
+
+
+### Bug Fixes
+
+* **spec:** note type is required for FeatureCollection bounds ([#57](https://github.com/bradford-tech/graphhopper-sdk/issues/57)) ([2ec5eac](https://github.com/bradford-tech/graphhopper-sdk/commit/2ec5eac68353ac16a26fc3bbe7fcf8d401565cc1))
+
 ## [0.1.6](https://github.com/bradford-tech/graphhopper-sdk/compare/graphhopper-sdk-v0.1.5...graphhopper-sdk-v0.1.6) (2026-11-09)
 
 
